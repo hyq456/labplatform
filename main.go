@@ -1,5 +1,7 @@
 package main
 
-func main() {
+import "labplatform/db"
 
+func main() {
+	db.InitDb()
 }
