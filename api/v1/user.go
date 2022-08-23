@@ -5,8 +5,10 @@ import (
 	"labplatform/model"
 	"labplatform/utils/errmsg"
 	"labplatform/utils/validator"
+	"log"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 // AddUser 创建用户
@@ -14,6 +16,7 @@ func AddUser(c *gin.Context) {
 	var data model.User
 	var msg string
 	var validCode int
+	vCode := c.Param("vCode")
 	_ = c.BindJSON(&data)
 
 	msg, validCode = validator.Validate(&data)
@@ -26,10 +29,21 @@ func AddUser(c *gin.Context) {
 		return
 	}
 
+	codeKey := "VerityCode" + data.Email + ":Code"
+	vCodeRaw, err := model.DbRedis.Get(model.Ctx, codeKey).Result()
+	if err != nil || vCodeRaw != vCode {
+		c.JSON(http.StatusOK, gin.H{
+			"status":  errmsg.ERROR_VCODE_NOT_EXIT,
+			"message": errmsg.GetErrMsg(errmsg.ERROR_VCODE_NOT_EXIT),
+		})
+		c.Abort()
+		return
+	}
 	code := model.CheckUser(data.Username)
 	if code == errmsg.SUCCSE {
 		model.CreateUser(&data)
 	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"message": errmsg.GetErrMsg(code),
@@ -100,4 +114,34 @@ func DeleteUser(c *gin.Context) {
 			"message": errmsg.GetErrMsg(code),
 		},
 	)
+}
+
+func SendValidateCode(c *gin.Context) {
+	em := c.Query("email")
+	vCode, code := model.SendEmailValidate(em)
+	if code != errmsg.SUCCSE {
+		log.Println(errmsg.GetErrMsg(code))
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": code,
+			"msg":    errmsg.GetErrMsg(code),
+		})
+		return
+	}
+	codeKey := "VerityCode" + em + ":Code"
+	err := model.DbRedis.Set(model.Ctx, codeKey, vCode, time.Minute*5).Err()
+
+	if err != nil {
+		log.Println(errmsg.GetErrMsg(code))
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": errmsg.ERROR_SAVE_VCODE,
+			"msg":    errmsg.GetErrMsg(errmsg.ERROR_SAVE_VCODE),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"msg":    "验证码发送成功",
+		"status": 200,
+		"vCode":  vCode,
+	})
+	return
 }
