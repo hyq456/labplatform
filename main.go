@@ -1,7 +1,12 @@
 package main
 
-import "labplatform/db"
+import (
+	"labplatform/model"
+	"labplatform/router"
+)
 
 func main() {
-	db.InitDb()
+	model.InitDb()
+	model.InitRedis()
+	router.InitRouter()
 }

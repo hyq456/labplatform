@@ -15,9 +15,14 @@ const (
 	ERROR_USER_NO_RIGHT    = 1008
 	//code 2XXX article model err
 	ERROR_ART_NOT_EXITS = 2001
-	//CODE 2XXX category model err
+	//CODE 3XXX category model err
 	ERROR_CATENAME_USER      = 3001
 	ERROR_CATENAME_NOT_EXIST = 3002
+	//CODE 4XXX EMAIL MODEL ERR
+	ERROR_SEND_FAIL        = 4001
+	ERROR_SAVE_VCODE       = 4002
+	ERROR_VCODE_NOT_EXIT   = 4003
+	ERROR_VCODE_TYPE_WRONG = 4004
 )
 
 var codemsg = map[int]string{
@@ -34,6 +39,10 @@ var codemsg = map[int]string{
 	ERROR_CATENAME_NOT_EXIST: "分类不存在",
 	ERROR_ART_NOT_EXITS:      "文字不存在",
 	ERROR_USER_NO_RIGHT:      "用户无权限",
+	ERROR_SEND_FAIL:          "发送邮件失败",
+	ERROR_SAVE_VCODE:         "储存验证码失败",
+	ERROR_VCODE_NOT_EXIT:     "验证码错误或已失效",
+	ERROR_VCODE_TYPE_WRONG:   "验证码格式错误",
 }
 
 func GetErrMsg(code int) string {
