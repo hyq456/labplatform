@@ -20,6 +20,7 @@ func InitRouter() {
 		// 用户模块的路由接口
 		router.POST("user/add/:vCode", v1.AddUser)
 		//router.GET("admin/users", v1.GetUsers)
+		router.GET("user/:id", v1.GetUserInfo)
 		router.PUT("user/:id", v1.EditUser)
 		router.DELETE("user/:id", v1.DeleteUser)
 		//修改密码

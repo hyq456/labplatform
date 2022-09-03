@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="@119.91.139.139" uuid="aea1cb55-8c8d-482d-940f-9df5f9fc496d">
+    <data-source source="LOCAL" name="labplatform@119.91.139.139" uuid="aea1cb55-8c8d-482d-940f-9df5f9fc496d">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://119.91.139.139:3306</jdbc-url>
+      <jdbc-url>jdbc:mysql://119.91.139.139:3306/labplatform</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="labplatform@localhost" uuid="52dc8a5f-ca87-4cec-a03a-f56b78f5a5c8">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/labplatform</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

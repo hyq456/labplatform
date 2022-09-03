@@ -23,6 +23,8 @@ const (
 	ERROR_SAVE_VCODE       = 4002
 	ERROR_VCODE_NOT_EXIT   = 4003
 	ERROR_VCODE_TYPE_WRONG = 4004
+	//CODE 5XXX REDIS MODEL ERR
+	ERROR_REDIS_NOT_EXIT = 5001
 )
 
 var codemsg = map[int]string{
@@ -43,6 +45,7 @@ var codemsg = map[int]string{
 	ERROR_SAVE_VCODE:         "储存验证码失败",
 	ERROR_VCODE_NOT_EXIT:     "验证码错误或已失效",
 	ERROR_VCODE_TYPE_WRONG:   "验证码格式错误",
+	ERROR_REDIS_NOT_EXIT:     "redis不存在",
 }
 
 func GetErrMsg(code int) string {

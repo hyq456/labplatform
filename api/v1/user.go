@@ -2,6 +2,7 @@ package v1
 
 import (
 	"github.com/gin-gonic/gin"
+	"labplatform/cache"
 	"labplatform/model"
 	"labplatform/utils/errmsg"
 	"labplatform/utils/validator"
@@ -54,7 +55,14 @@ func AddUser(c *gin.Context) {
 func GetUserInfo(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	var maps = make(map[string]interface{})
-	data, code := model.GetUser(id)
+	data, code := cache.GetOneUserCache(id)
+	if code != errmsg.SUCCSE {
+		data, code = model.GetUser(id)
+		if code == errmsg.SUCCSE {
+			cache.SetOneUserCache(id, data)
+		}
+	}
+	//data, code := model.GetUser(id)
 	maps["username"] = data.Username
 	maps["role"] = data.Role
 	c.JSON(

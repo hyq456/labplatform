@@ -54,7 +54,7 @@ func CheckUpUser(id int, name string) (code int) {
 
 func GetUser(id int) (User, int) {
 	var user User
-	err := db.First(&user, id)
+	err := db.First(&user, id).Error
 	if err != nil {
 		return User{}, errmsg.ERROR
 	}
